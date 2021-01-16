@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle `
         max-width: 100vw;
         max-height: 100vh;
 
-        background: var(--white);
+        background: var(--primary-white);
     }
 
     *, input, button {
@@ -25,8 +25,14 @@ const GlobalStyle = createGlobalStyle `
     }
 
     :root {
-        --back: #353535;
-        --white: #fcfcfc;
+        --black: #1F1F1F;
+        --dark-gray: #50514F;
+        --light-gray: #999a98;
+        --primary-white: #fcfcfc;
+        --secondary-white: #efefef;
+        --red: #f25f5c;
+        --blue-primary: #247ba0;
+        --light-blue: #70C1B3;
     }
 
 `
