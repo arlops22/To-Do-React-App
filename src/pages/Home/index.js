@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { MdAdd, MdDelete, MdMoreHoriz, MdEdit } from 'react-icons/md';
 
 import GlobalStyle from '../../assets/styles/global';
-import { Container, Table, MenuAction, ButtonNew, ActionsButton } from './styles.js';
+import { Container, Table, TaskData, MenuAction, ButtonNew, ActionsButton } from './styles.js';
 import Header from '../../components/Header';
 
 
 export default function Home() {
 
     const [menuAction, setMenuAction] = useState(false);
+    const [taskStatus, setTaskStatus] = useState(false);
 
     return (
         <>
@@ -26,9 +27,9 @@ export default function Home() {
                     </thead>
                     <tbody>
                         <tr>
-                            <td><input type="checkbox" name="aciton-input" id="aciton-input"/></td>
+                            <td><input onChange={() => setTaskStatus(prevState => !prevState)} type="checkbox" name="aciton-input" id="aciton-input"/></td>
                             <td>
-                                <p>Lavar Louça</p> 
+                                <TaskData status={taskStatus}>Lavar Louça</TaskData> 
                                 <MenuAction open={menuAction}>
                                     <ActionsButton onClick={() => setMenuAction((prevState) => !prevState)}><MdMoreHoriz/></ActionsButton>
                                     <ul>

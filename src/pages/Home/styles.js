@@ -32,10 +32,6 @@ export const Table = styled.table `
 
         position: relative;
     }
-
-    td p {
-        padding: 5px;
-    }
     
     th:first-child, td:first-child {
         width: 5%;
@@ -49,6 +45,13 @@ export const Table = styled.table `
 
     }
 
+`;
+
+export const TaskData = styled.p `
+
+    padding: 5px;
+
+    text-decoration: ${props => props.status ? 'line-through' : 'none'};
 `;
 
 export const MenuAction = styled.div `
