@@ -31,8 +31,10 @@ const GlobalStyle = createGlobalStyle `
         --primary-white: #fcfcfc;
         --secondary-white: #efefef;
         --red: #f25f5c;
-        --blue-primary: #247ba0;
+        --red-hover: #ef3c39;
+        --primary-blue: #247ba0;
         --light-blue: #70C1B3;
+        --light-blue-hover: #50d8bf;
     }
 
 `

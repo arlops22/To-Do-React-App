@@ -21,13 +21,15 @@ export const Table = styled.table `
     th {
         font-weight: bold;
         text-align: left;
-        border-bottom: 1px solid var(--blue-primary);
+        border-bottom: 1px solid var(--primary-blue);
         padding: 5px 12px;
     }
     
     td {
-        border-bottom: 1px solid var(--blue-primary);
+        border-bottom: 1px solid var(--primary-blue);
         padding: 5px 12px;
+
+        position: relative;
     }
     
     th:first-child, td:first-child {
@@ -77,6 +79,8 @@ export const ActionsButton = styled.button `
     border-radius: 3px;
     display: flex;
     align-items: center;
+
+    position: absolute;
 
     &:hover {
         background: var(--secondary-white);
