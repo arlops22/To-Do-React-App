@@ -27,14 +27,15 @@ const GlobalStyle = createGlobalStyle `
     :root {
         --black: #1F1F1F;
         --dark-gray: #50514F;
-        --light-gray: #999a98;
-        --primary-white: #fcfcfc;
+        --gray: #999a98;
+        --light-gray: #c4c4c4;
         --secondary-white: #efefef;
+        --primary-white: #fcfcfc;
         --red: #f25f5c;
         --red-hover: #ef3c39;
         --primary-blue: #247ba0;
-        --light-blue: #70C1B3;
         --light-blue-hover: #50d8bf;
+        --light-blue: #70C1B3;
     }
 
 `

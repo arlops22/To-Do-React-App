@@ -9,7 +9,7 @@ export const Container = styled.div `
     h1 {
         font-size: 3em;
         font-weight: bold;
-        margin: 1em 0;
+        margin: 2em 0;
     }
 `;
 
