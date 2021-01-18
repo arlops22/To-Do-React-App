@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { Context } from '../../Context/AuthContext';
 
 import GlobalStyle from '../../assets/styles/global';
 import {
@@ -10,12 +12,15 @@ import {
 } from './styles';
 
 export default function SignUp() {
+    const { handleSignUp } = useContext(Context);
+
+
     return (
         <>
             <GlobalStyle />
             <Container>
                 <h1>Sign Up</h1>
-                <Form>
+                <Form onSubmit={handleSignUp}>
                     <InputGroup>
                         <label htmlFor="username">Username: </label>
                         <input type="text" name="username" id="username" />
