@@ -16,13 +16,14 @@ export const Nav = styled.nav `
         margin: 0 5px;
     }
 
-    ul li a {
+    ul li a, ul li button {
+        cursor: pointer;
         color: var(--light-gray);
         text-decoration: none;
         transition: .1s;
     }
 
-    ul li a:hover {
+    ul li a:hover, ul li button:hover {
         color: var(--dark-gray);
     }
 

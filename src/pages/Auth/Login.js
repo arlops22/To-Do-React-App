@@ -1,30 +1,34 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import GlobalStyle from '../../assets/styles/global.js';
+import { Context } from '../../Context/AuthContext';
+
 import {
     Container,
     Form,
     InputGroup,
     Button,
     SecondaryButton
-} from './styles.js';
+} from './styles';
+import GlobalStyle from '../../assets/styles/global';
 
 export default function Login() {
+    const { handleLogin } = useContext(Context);
+
     return (
         <>
             <GlobalStyle />
             <Container>
                 <h1>Log in</h1>
-                <Form>
+                <Form onSubmit={handleLogin}>
                     <InputGroup>
-                        <label for="email">E-mail: </label>
-                        <input type="text" name="email" />
+                        <label htmlFor="email">E-mail: </label>
+                        <input type="text" name="email" id="email" />
                     </InputGroup>
                     <InputGroup>
-                        <label for="password">Password: </label>
-                        <input type="password" name="password" />
+                        <label htmlFor="password">Password: </label>
+                        <input type="password" name="password" id="password" />
                     </InputGroup>
-                    <Button>Login</Button>
+                    <Button type="submit">Login</Button>
                     <SecondaryButton to='/signup'>Sign Up</SecondaryButton>
                 </Form>
             </Container>
