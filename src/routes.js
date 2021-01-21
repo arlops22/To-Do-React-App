@@ -3,6 +3,8 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { Context } from './Context/AuthContext';
 
+import Loader from './components/Loader';
+
 import Home from './pages/Home';
 import Login from './pages/Auth/Login';
 import SignUp from './pages/Auth/SignUp';
@@ -12,7 +14,7 @@ function CustomRoute({ isPrivate, ...rest }) {
 
     if (loading) {
         return (
-            <h1>Loading...</h1>
+            <Loader />
         )
     }
 
