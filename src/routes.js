@@ -4,8 +4,8 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { Context } from './Context/AuthContext';
 
 import Home from './pages/Home';
-import Login from './pages/Auth/Login.js';
-import SignUp from './pages/Auth/SignUp.js';
+import Login from './pages/Auth/Login';
+import SignUp from './pages/Auth/SignUp';
 
 function CustomRoute({ isPrivate, ...rest }) {
     const { loading, authenticated } = useContext(Context);

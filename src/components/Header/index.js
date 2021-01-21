@@ -11,7 +11,6 @@ export default function Header() {
         <Nav>
             <ul>
                 <li><Link to="/">Tasks</Link></li>
-                <li><Link to="/profile">Profile</Link></li>
                 <li><button onClick={handleLogout}>Sair</button></li>
             </ul>
         </Nav>

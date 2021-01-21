@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-import api from '../../api';
-import history from '../../history';
+import api from '../api';
+import history from '../history';
 
 export default function useAuth() {
     const [ authenticated, setAuthenticated ] = useState(false);
@@ -15,7 +15,6 @@ export default function useAuth() {
             api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`;
             setAuthenticated(true);
         }
-        console.log(token)
 
         setLoading(false);
 
@@ -46,7 +45,6 @@ export default function useAuth() {
         api.defaults.headers.Authorization = undefined;
         history.push('/login');
         setAuthenticated(false);
-        console.log(authenticated)
 
     }
 
