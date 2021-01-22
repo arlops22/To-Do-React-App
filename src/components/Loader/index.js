@@ -3,7 +3,7 @@ import React from 'react';
 import GlobalStyle from '../../assets/styles/global';
 import { Container, Load } from './styles';
  
-function Loader() {
+export default function Loader() {
     return (
         <>
             <GlobalStyle />
@@ -14,5 +14,3 @@ function Loader() {
         </>
     );
 }
-
-export default Loader;

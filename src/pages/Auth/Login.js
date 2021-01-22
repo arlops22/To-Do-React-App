@@ -12,14 +12,15 @@ import {
 import GlobalStyle from '../../assets/styles/global';
 
 export default function Login() {
-    const { handleLogin } = useContext(Context);
+    const { handleLogin, error } = useContext(Context);
 
     return (
         <>
             <GlobalStyle />
             <Container>
                 <h1>Log in</h1>
-                <Form onSubmit={handleLogin}>
+                <Form error={error} onSubmit={handleLogin}>
+                    <span>Algo deu errado. E-mail ou senha incorretos!</span>
                     <InputGroup>
                         <label htmlFor="email">E-mail: </label>
                         <input type="text" name="email" id="email" />

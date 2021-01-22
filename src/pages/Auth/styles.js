@@ -15,6 +15,24 @@ export const Container = styled.div `
 
 export const Form = styled.form `
     width: 25vw;
+    position: relative;
+
+    span {
+        display: ${props => props.error ? 'block' : 'none'};
+        color: var(--primary-white);
+        opacity: .7;
+        font-size: 0.875em;
+        padding: 10px;
+        background: var(--red);
+        border-radius: 3px;
+        margin-bottom: 8px;
+        border: 2px solid var(--red-hover);
+        text-align: center;
+        position: absolute;
+        width: 100%;
+        top: -50px;
+    }
+
 `;
 
 export const InputGroup = styled.div `

@@ -6,6 +6,7 @@ import history from '../history';
 export default function useAuth() {
     const [ authenticated, setAuthenticated ] = useState(false);
     const [ loading, setLoading ] = useState(true);
+    const [ error, setError ] = useState(false);
 
     useEffect(() => {
 
@@ -24,18 +25,24 @@ export default function useAuth() {
         e.preventDefault();
         const { email, password } = e.target.elements;
         
-        setAuthenticated(true);
+        try {
+            const { data: {token} } = await api.post('/authenticate', {
+                email: email.value,
+                password: password.value
+            });
 
-        const { data: {token} } = await api.post('/authenticate', {
-            email: email.value,
-            password: password.value
-        });
+            setAuthenticated(true);
+            setError(false);
 
-        localStorage.setItem('token', JSON.stringify(token));
+            localStorage.setItem('token', JSON.stringify(token));
+    
+            api.defaults.headers.Authorization = `Bearer ${token}`;
+            
+            history.push('/');
 
-        api.defaults.headers.Authorization = `Bearer ${token}`;
-        
-        history.push('/');
+        } catch(err) {
+            setError(true);
+        }
 
     }
 
@@ -68,5 +75,5 @@ export default function useAuth() {
 
     }
 
-    return { authenticated, loading, handleLogin, handleLogout, handleSignUp }
+    return { authenticated, loading, error, handleLogin, handleLogout, handleSignUp }
 }
