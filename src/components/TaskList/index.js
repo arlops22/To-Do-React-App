@@ -120,8 +120,9 @@ export default function TaskList() {
                                         onChange={() => changeTaskStatus(task)} 
                                         type="checkbox" 
                                         name="aciton-input" 
-                                        id="aciton-input"
+                                        id={`action-input-${task.id}`}
                                     />
+                                    <label htmlFor={`action-input-${task.id}`}><span></span></label>
                                 </td>
                                 <td>
                                     <TaskData status={task.complete}>{task.taskName}</TaskData>

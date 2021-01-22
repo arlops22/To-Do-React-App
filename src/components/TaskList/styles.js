@@ -28,9 +28,40 @@ export const TaskTable = styled.table `
     }
 
     input[type="checkbox"] {
-        cursor: pointer;
-
+        display: none;
     }
+
+    input[type="checkbox"] + label {
+        cursor: pointer;
+        width: 1em;
+        height: 1em;
+        background: transparent;
+        border: 2px solid var(--light-gray);
+        border-radius: 2px;
+        margin-left: 4px;
+
+        display: flex;
+    }
+
+    input[type="checkbox"]:checked + label {
+        border: .5em solid var(--light-blue-hover);
+    }
+
+    input[type="checkbox"]:checked + label:before {
+        content: "";
+        position: absolute;
+        top: 16px;
+        left: 6px;
+        border-right: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        transform: rotate(45deg);
+        transform-origin: 0% 100%;
+        width: .2em;
+        height: .5em;    
+        border-color: var(--primary-white);
+        transform: translate3d(0,-.5em,0) rotate(45deg);
+    }
+    
 
 `;
 
