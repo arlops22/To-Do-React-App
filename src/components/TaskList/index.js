@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { MdAdd } from 'react-icons/md';
 
 import api from '../../api';
 import useClickOutside from '../../hooks/useClickOutside';
-import MenuOptions from './MenuOptions';
+import Task from '../Task';
 
 import { 
-    TaskTable, 
-    TaskData,  
+    TaskTable,
     ButtonNew,  
     CreateTaskRow
 } from './styles';
@@ -17,43 +16,54 @@ export default function TaskList() {
     const [ formTask, setFormTask ] = useState(false);
     const [ tasks, setTasks ] = useState([]);
 
-    const createRef = useRef(null);
+    const createTaskRef = useRef(null);
 
-    useClickOutside(createRef, () => {
-        setFormTask(false);
-    })
-
-    useEffect(() => {
+    const createTask = useCallback(async (event) => {
         
-        (async () => {
-            const { data } = await api.get('/tasks');
+        if (!createTaskRef.current.contains(event.target) && createTaskRef.current.value) {
+            
+            const { data } = await api.post('/tasks', {
+                taskName: createTaskRef.current.value
+            });
+    
+            setTasks(oldTasks => [ ...oldTasks, data ])
 
-            setTasks(data);
-        })();
-
-    }, []);
-
-    useEffect(() => {
-        
-        if (formTask) {
-            createRef.current.value = '';
-            createRef.current.focus()
+            createTaskRef.current.value = '';
+            setFormTask(false);
         }
 
-    }, [formTask])
+    }, [])
 
+    const updateTask = useCallback((taskId, taskName) => {
 
-    async function handleDelete(id) {
-
-        await api.delete(`/tasks/${id}`);
-
-        const updatedTasks = tasks.filter(task => task.id !== id);
+        const updatedTasks = tasks.map(task => {
+            return task.id === taskId 
+            ? { ...task, taskName: taskName }
+            : task 
+        })
 
         setTasks(updatedTasks);
 
-    }
+    }, [tasks])
 
-    async function changeTaskStatus(taskChecked) {
+    const handleUpdate = useCallback(async (taskName, taskObject) => {
+
+        const { data } = await api.post(`/tasks/${taskObject.id}`, {
+            taskName: taskName,
+            complete: taskObject.complete
+        });
+
+        const updatedTasks = tasks.map(task => {
+            return task.id === taskObject.id 
+            ? { ...task, taskName: data.taskName, updatedAt: data.updatedAt }
+            : task 
+        })
+
+        setTasks(updatedTasks);
+
+    }, [tasks])
+
+    async function completeTask(taskChecked) {
 
         const { data } = await api.post(`/tasks/${taskChecked.id}`, {
             taskName: taskChecked.taskName,
@@ -69,37 +79,47 @@ export default function TaskList() {
         setTasks(updatedTasks);
     }
 
-    async function handleCreateTask(e) {
-        e.preventDefault();
+    async function handleDelete(id) {
 
-        const { taskName } = e.target.elements; 
+        await api.delete(`/tasks/${id}`);
 
-        const { data } = await api.post('/tasks', {
-            taskName: taskName.value
-        });
-
-        setTasks(
-            [ ...tasks, data ]
-        )
-        
-        setFormTask(false);
-    }
-
-    async function handleUpdate(e, taskObject) {
-
-        const { data } = await api.post(`/tasks/${taskObject.id}`, {
-            taskName: e.target.value,
-            complete: taskObject.complete
-        });
-
-        const updatedTasks = tasks.map(task => {
-            return task.id === taskObject.id 
-            ? { ...task, taskName: data.taskName, updatedAt: data.updatedAt }
-            : task 
-        })
+        const updatedTasks = tasks.filter(task => task.id !== id);
 
         setTasks(updatedTasks);
+
     }
+
+    useClickOutside(createTaskRef, () => {
+        setFormTask(false);
+    })
+
+    useEffect(() => {
+        
+        (async () => {
+            const { data } = await api.get('/tasks');
+
+            setTasks(data);
+        })();
+
+    }, []);
+
+    useEffect(() => {    
+
+        document.addEventListener('mousedown', createTask);
+
+        return () => {
+            document.removeEventListener('mousedown', createTask);
+        }
+
+    }, [createTask])
+    
+    useEffect(() => {
+        
+        if (formTask) {
+            createTaskRef.current.focus()
+        }
+
+    }, [formTask])
 
     return (
         <TaskTable>
@@ -113,35 +133,23 @@ export default function TaskList() {
                 {
                     tasks.map((task) => {
                         return(
-                            <tr key={task.id}>
-                                <td>
-                                    <input 
-                                        checked={task.complete} 
-                                        onChange={() => changeTaskStatus(task)} 
-                                        type="checkbox" 
-                                        name="aciton-input" 
-                                        id={`action-input-${task.id}`}
-                                    />
-                                    <label htmlFor={`action-input-${task.id}`}><span></span></label>
-                                </td>
-                                <td>
-                                    <TaskData status={task.complete}>{task.taskName}</TaskData>
-                                    <MenuOptions 
-                                        update={handleUpdate} 
-                                        deleteTask={handleDelete} 
-                                        task={task} 
-                                    />
-                                </td>                    
-                            </tr>
+                            <Task 
+                                key={task.id}
+                                task={task}
+                                updateTask={updateTask}
+                                completeTask={completeTask}
+                                handleDelete={handleDelete}
+                                handleUpdate={handleUpdate}
+                            />
                         )
                     })
                 }
                 <CreateTaskRow open={formTask}>
                     <td></td>
                     <td>
-                        <form onSubmit={handleCreateTask}>
+                        <form onSubmit={(e) => e.preventDefault()}>
                             <input 
-                                ref={createRef} 
+                                ref={createTaskRef} 
                                 name="taskName" 
                                 id="taskName" 
                                 type="text" 
