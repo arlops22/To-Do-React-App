@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
 import { MdAdd } from 'react-icons/md';
 
-import api from '../../api';
 import useClickOutside from '../../hooks/useClickOutside';
 import Task from '../Task';
+import { Context } from '../../Context/TaskContext';
 
 import { 
     TaskTable,
@@ -14,19 +14,16 @@ import {
 
 export default function TaskList() {
     const [ formTask, setFormTask ] = useState(false);
-    const [ tasks, setTasks ] = useState([]);
+
+    const { tasks, handleCreate } = useContext(Context);
 
     const createTaskRef = useRef(null);
-
-    const createTask = useCallback(async (event) => {
+   
+    const createTask = useCallback((event) => {
         
         if (!createTaskRef.current.contains(event.target) && createTaskRef.current.value) {
             
-            const { data } = await api.post('/tasks', {
-                taskName: createTaskRef.current.value
-            });
-    
-            setTasks(oldTasks => [ ...oldTasks, data ])
+            handleCreate(createTaskRef.current.value);
 
             createTaskRef.current.value = '';
             setFormTask(false);
@@ -34,85 +31,20 @@ export default function TaskList() {
 
     }, [])
 
-    const updateTask = useCallback((taskId, taskName) => {
-
-        const updatedTasks = tasks.map(task => {
-            return task.id === taskId 
-            ? { ...task, taskName: taskName }
-            : task 
-        })
-
-        setTasks(updatedTasks);
-
-    }, [tasks])
-
-    const handleUpdate = useCallback(async (taskName, taskObject) => {
-
-        const { data } = await api.post(`/tasks/${taskObject.id}`, {
-            taskName: taskName,
-            complete: taskObject.complete
-        });
-
-        const updatedTasks = tasks.map(task => {
-            return task.id === taskObject.id 
-            ? { ...task, taskName: data.taskName, updatedAt: data.updatedAt }
-            : task 
-        })
-
-        setTasks(updatedTasks);
-
-    }, [tasks])
-
-    async function completeTask(taskChecked) {
-
-        const { data } = await api.post(`/tasks/${taskChecked.id}`, {
-            taskName: taskChecked.taskName,
-            complete: !taskChecked.complete
-        })
-
-        const updatedTasks = tasks.map(task => {
-            return task.id === taskChecked.id 
-            ? { ...task, complete: data.complete, updatedAt: data.updatedAt }
-            : task 
-        })
-
-        setTasks(updatedTasks);
-    }
-
-    async function handleDelete(id) {
-
-        await api.delete(`/tasks/${id}`);
-
-        const updatedTasks = tasks.filter(task => task.id !== id);
-
-        setTasks(updatedTasks);
-
-    }
-
     useClickOutside(createTaskRef, () => {
         setFormTask(false);
     })
-
-    useEffect(() => {
-        
-        (async () => {
-            const { data } = await api.get('/tasks');
-
-            setTasks(data);
-        })();
-
-    }, []);
-
-    useEffect(() => {    
-
-        document.addEventListener('mousedown', createTask);
-
-        return () => {
-            document.removeEventListener('mousedown', createTask);
-        }
-
-    }, [createTask])
     
+   useEffect(() => {    
+
+       document.addEventListener('mousedown', createTask);
+
+       return () => {
+           document.removeEventListener('mousedown', createTask);
+       }
+
+   }, [createTask])
+
     useEffect(() => {
         
         if (formTask) {
@@ -131,15 +63,12 @@ export default function TaskList() {
             </thead>
             <tbody>
                 {
-                    tasks.map((task) => {
+                    tasks.map((task, index) => {
                         return(
                             <Task 
                                 key={task.id}
                                 task={task}
-                                updateTask={updateTask}
-                                completeTask={completeTask}
-                                handleDelete={handleDelete}
-                                handleUpdate={handleUpdate}
+                                index={index}
                             />
                         )
                     })

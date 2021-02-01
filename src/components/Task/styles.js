@@ -1,6 +1,7 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const TableRow = styled.tr `
+
 
     input[type="checkbox"] {
         display: none;
@@ -55,12 +56,23 @@ export const TableRow = styled.tr `
     }
 
     .drag-button svg {
-        fill: var(--gray);
+        fill: var(--light-gray);
     }
 
     &:hover > td .drag-button {
         opacity: 100;
     }
+
+    ${props => props.isDragging && css `
+
+        background: transparent;
+        opacity: 0;
+        cursor: grabbing;
+
+        td {
+            border-right: 0;
+        }
+    `}  
 
 `;
 
@@ -93,7 +105,7 @@ export const MenuAction = styled.div `
     }
 
     button svg {
-        fill: var(--dark-gray);
+        fill: var(--gray);
     }
 
 `;

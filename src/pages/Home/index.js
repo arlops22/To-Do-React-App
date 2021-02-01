@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import api from '../../api';
+import { TaskProvider } from '../../Context/TaskContext';
 
 import GlobalStyle from '../../assets/styles/global';
 import { Container } from './styles';
@@ -22,7 +25,8 @@ export default function Home() {
     }, []);
 
     return (
-        <>
+        <DndProvider backend={HTML5Backend}>
+        <TaskProvider>
             <Header />
             <Container>
 
@@ -32,6 +36,8 @@ export default function Home() {
             </Container>
             
             <GlobalStyle />
-        </>
+            
+        </TaskProvider>
+        </DndProvider>
     )
 }

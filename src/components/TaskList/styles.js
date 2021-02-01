@@ -5,6 +5,7 @@ export const TaskTable = styled.table `
     margin-top: 4em;
     border-collapse: collapse;
     width: 40%;
+    background: var(--primary-white);
 
     th {
         font-weight: bold;
