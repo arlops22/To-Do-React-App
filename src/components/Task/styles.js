@@ -15,12 +15,20 @@ export const TableRow = styled.tr `
         border: 2px solid var(--light-gray);
         border-radius: 2px;
         margin-left: 4px;
-
+        transition: .2s;
         display: flex;
+    }
+
+    input[type="checkbox"] + label:hover {
+        border: 2px solid var(--gray);
     }
 
     input[type="checkbox"]:checked + label {
         border: .5em solid var(--light-blue-hover);
+    }
+
+    input[type="checkbox"]:checked + label:hover {
+        border: .5em solid var(--light-blue);
     }
 
     input[type="checkbox"]:checked + label:before {
@@ -79,6 +87,7 @@ export const TableRow = styled.tr `
 export const TaskData = styled.p `
 
     padding: 5px;
+    transition: .2s;
 
     text-decoration: ${props => props.status ? 'line-through' : 'none'};
     color: ${props => props.status ? 'var(--gray)' : 'var(--black)'};

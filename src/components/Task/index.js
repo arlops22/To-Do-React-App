@@ -8,7 +8,7 @@ import MenuOptions from './MenuOptions';
 import { TableRow, TaskData } from './styles';
 
 function Task({ task, index }) {
-    const { move, completeTask } = useContext(Context);
+    const { moveTask, completeTask } = useContext(Context);
     
     const ref = useRef(null);
 
@@ -43,7 +43,7 @@ function Task({ task, index }) {
                 return;
             }
 
-            move(draggedIndex, targetIndex);
+            moveTask(draggedIndex, targetIndex);
             item.index = targetIndex;
         }
     })

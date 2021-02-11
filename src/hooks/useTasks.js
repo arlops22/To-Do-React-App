@@ -6,7 +6,7 @@ import api from '../api';
 export default function useTasks() {
     const [ tasks, setTasks ] = useState([]);
 
-    const move = useCallback((from, to) => {
+    const moveTask = useCallback((from, to) => {
 
         setTasks(produce(tasks, draft =>{
 
@@ -16,8 +16,7 @@ export default function useTasks() {
             draft.splice(to, 0, dragged);
 
         }))
-
-        console.log(tasks)
+        
     }, [tasks])
 
     const updateTaskList = useCallback((taskId, taskName) => {
@@ -86,6 +85,16 @@ export default function useTasks() {
 
     }, [tasks])
 
+    const handleDeleteAll = useCallback(() => {
+
+        tasks.forEach(async (task) => {
+            await api.delete(`/tasks/${task.id}`);
+        })
+
+        setTasks([]);
+
+    }, [tasks])
+
     useEffect(() => {
         
         (async () => {
@@ -96,5 +105,5 @@ export default function useTasks() {
 
     }, []);
 
-    return { tasks, move, handleCreate, handleDelete, handleUpdate, updateTaskList, completeTask }
+    return { tasks, moveTask, handleCreate, handleDelete, handleDeleteAll, handleUpdate, updateTaskList, completeTask }
 }

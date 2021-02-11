@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
-import { MdAdd } from 'react-icons/md';
+import { MdAdd, MdDelete } from 'react-icons/md';
 
 import useClickOutside from '../../hooks/useClickOutside';
 import Task from '../Task';
@@ -7,7 +7,8 @@ import { Context } from '../../Context/TaskContext';
 
 import { 
     TaskTable,
-    ButtonNew,  
+    ButtonNew, 
+    ButtonDelete,  
     CreateTaskRow
 } from './styles';
 
@@ -15,7 +16,7 @@ import {
 export default function TaskList() {
     const [ formTask, setFormTask ] = useState(false);
 
-    const { tasks, handleCreate } = useContext(Context);
+    const { tasks, handleCreate, handleDeleteAll } = useContext(Context);
 
     const createTaskRef = useRef(null);
    
@@ -58,8 +59,11 @@ export default function TaskList() {
             <thead>
                 <tr>
                     <th></th>
-                    <th>Your Tasks</th>
-                </tr>
+                    <th>
+                        Your Tasks
+                        <ButtonDelete onClick={() => handleDeleteAll()}><MdDelete />Delete All</ButtonDelete>    
+                    </th>
+                </tr>   
             </thead>
             <tbody>
                 {

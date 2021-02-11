@@ -6,10 +6,10 @@ const Context = createContext();
 
 function TaskProvider({ children }) {
 
-    const { tasks, move, handleCreate, handleDelete, handleUpdate, updateTaskList, completeTask } = useTasks()
+    const { tasks, moveTask, handleCreate, handleDelete, handleDeleteAll, handleUpdate, updateTaskList, completeTask } = useTasks()
 
     return(
-        <Context.Provider value={{ tasks, move, handleCreate, handleDelete, handleUpdate, updateTaskList, completeTask }}>
+        <Context.Provider value={{ tasks, moveTask, handleCreate, handleDelete, handleDeleteAll, handleUpdate, updateTaskList, completeTask }}>
             {children}
         </Context.Provider>
     )

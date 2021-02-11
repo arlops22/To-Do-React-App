@@ -12,8 +12,9 @@ export const TaskTable = styled.table `
         text-align: left;
         border-bottom: 1px solid var(--primary-blue);
         padding: 10px 12px;
+        position: relative;
     }
-    
+
     td {
         border-bottom: 1px solid var(--primary-blue);
         padding: 5px 12px;
@@ -49,6 +50,28 @@ export const ButtonNew = styled.button `
         margin-right: 4px;
         fill: var(--light-gray);
     }
+`;
+
+export const ButtonDelete = styled.button ` 
+    color: var(--gray);
+    cursor: pointer;
+    transition: .2s;
+    padding: 5px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 0;
+    top: 5px;
+
+    &:hover {
+        background: var(--secondary-white);
+    }
+
+    svg {
+        fill: var(--gray);
+    }
+
 `;
 
 export const CreateTaskRow = styled.tr `
